@@ -6,7 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var mongoose   = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/voiceZone'); // connect to our database
+mongoose.connect('mongodb://VoiceAdmin:42IN11SOh@ds013270.mlab.com:13270/voicezone'); // connect to our database
 
 
 

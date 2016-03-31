@@ -20,6 +20,8 @@ router.post('/', function(req, res) {
 		var user = new User();		// create a new instance of the User model
 		user.username = req.body.username;  // set the users name (comes from the request)
         user.uid = req.body.uid;
+        user.firstname = req.body.firstname;
+        user.lastname = req.body.lastname;
 
 		user.save(function(err) {
 			if (err)
@@ -50,7 +52,10 @@ router.put('/:user_id', function(req, res) {
 				res.send(err);
 
 			user.username = req.body.username;  // set the users name (comes from the request)
-            user.uid = req.body.uid;
+        user.uid = req.body.uid;
+        user.firstname = req.body.firstname;
+        user.lastname = req.body.lastname;
+        
 			user.save(function(err) {
 				if (err)
 					res.send(err);
