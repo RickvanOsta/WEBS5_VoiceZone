@@ -29,6 +29,10 @@ function populateTable() {
            tableContent += "<td>" + this.firstname + "</td>";
            tableContent += "<td>" + this.lastname + "</td>";
            tableContent += "<td><a href='#' class='linkdeleteuser' rel='" + this._id + "'>delete</a></td>";
+           tableContent += "</tr>";
         });
+
+        //inject content in table
+        $('#userList table tbody').html(tableContent);
     });
 }

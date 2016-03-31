@@ -12,8 +12,6 @@ var flash    = require('connect-flash');
 var mongoose   = require('mongoose');
 mongoose.connect('mongodb://VoiceAdmin:42IN11SOh@ds013270.mlab.com:13270/voicezone'); // connect to our database
 
-app.use(morgan('dev')); // log every request to the console
-
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var voices = require('./routes/voices');
@@ -24,12 +22,12 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-
+/*
 app.use(session({ secret: 'ilovescotchscotchyscotchscotch' })); // session secret
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
-
+*/
 
 
 // uncomment after placing your favicon in /public
@@ -44,7 +42,7 @@ app.use('/', routes);
 app.use('/users', users);
 app.use('/voices', voices);
 
-app.use(passport);
+//app.use(passport);
 
 
 // catch 404 and forward to error handler
