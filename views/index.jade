@@ -1,5 +1,22 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  h1= Admin
+  p Welcome to the admin page
+
+  //wrapper
+  #wrapper
+
+      //USER LIST
+      h2 Users
+      #userList
+          table
+              thead
+                th UserName
+                th FirstName
+                th LastName
+                th Delete?
+              tbody
+      // /USER LIST
+
+  // /WRAPPER
