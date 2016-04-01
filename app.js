@@ -12,23 +12,18 @@ var flash    = require('connect-flash');
 var mongoose   = require('mongoose');
 mongoose.connect('mongodb://VoiceAdmin:42IN11SOh@ds013270.mlab.com:13270/voicezone'); // connect to our database
 
-var routes = require('./routes/index');
+require('./config/passport')(passport); // pass passport for configuration
+
+
 var users = require('./routes/users');
 var voices = require('./routes/voices');
 
-var app = express();
 
+
+var app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-
-/*
-app.use(session({ secret: 'ilovescotchscotchyscotchscotch' })); // session secret
-app.use(passport.initialize());
-app.use(passport.session()); // persistent login sessions
-app.use(flash()); // use connect-flash for flash messages stored in session
-*/
-
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -38,7 +33,16 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', routes);
+
+// required for passport
+app.use(session({ secret: 'ilovescotchscotchyscotchscotch' })); // session secret
+app.use(passport.initialize());
+app.use(passport.session()); // persistent login sessions
+app.use(flash()); // use connect-flash for flash messages stored in session
+
+
+
+
 app.use('/users', users);
 app.use('/voices', voices);
 app.use('/users/:userid/voices', voices)
@@ -47,7 +51,7 @@ app.use('/users/:userid/voices', voices)
 //req.params.kip = aaaa
 //req.params.voiceID = 1
 
-//app.use(passport);
+require('./routes/index.js')(app, passport); // load our routes and pass in our app and fully configured passport
 
 
 // catch 404 and forward to error handler
@@ -61,7 +65,7 @@ app.use(function(req, res, next) {
 
 // development error handler
 // will print stacktrace
-if (app.get('env') === 'development') {
+//if (app.get('env') === 'development') {
   app.use(function(err, req, res, next) {
     res.status(err.status || 500);
     res.render('error', {
@@ -69,10 +73,11 @@ if (app.get('env') === 'development') {
       error: err
     });
   });
-}
+//}
 
 // production error handler
 // no stacktraces leaked to user
+/*
 app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error', {
@@ -80,6 +85,6 @@ app.use(function(err, req, res, next) {
     error: {}
   });
 });
-
+*/
 
 module.exports = app;
