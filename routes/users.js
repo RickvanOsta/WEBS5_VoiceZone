@@ -83,5 +83,11 @@ router.delete('/:user_id', function(req, res) {
 });
 
 
+router.get('/:user_id/voices',  function(req, res) {
+		console.log(req);
+		console.log(res);
+		
+});
+
 
 module.exports = router;

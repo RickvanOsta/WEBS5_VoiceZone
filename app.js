@@ -41,6 +41,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/users', users);
 app.use('/voices', voices);
+app.use('/users/:userid/voices', voices)
+
+//voices/aaaa/1
+//req.params.kip = aaaa
+//req.params.voiceID = 1
 
 //app.use(passport);
 
