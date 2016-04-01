@@ -6,9 +6,9 @@ var User = require('../models/user');
 /* GET users listing. */
 router.get('/', function(req, res) {
         User.find(function(err, users) {
-			if (err)
+			if (err) {
 				res.send(err);
-
+			}
 			res.json(users);
 		});
 });
@@ -24,9 +24,10 @@ router.post('/', function(req, res) {
         user.lastname = req.body.lastname;
 
 		user.save(function(err) {
-			if (err)
+			if (err) {
 				res.send(err);
-
+			}
+			console.log('USER CREATED');
 			res.json({ message: 'User created!' });
 		});
 
@@ -38,8 +39,9 @@ router.post('/', function(req, res) {
 // get the user with that id
 router.get('/:user_id', function(req, res) {
 		User.findById(req.params.user_id, function(err, user) {
-			if (err)
+			if (err) {
 				res.send(err);
+			}
 			res.json(user);
 		});
 	});
@@ -48,13 +50,14 @@ router.get('/:user_id', function(req, res) {
 router.put('/:user_id', function(req, res) {
 		User.findById(req.params.user_id, function(err, user) {
 
-			if (err)
+			if (err) {
 				res.send(err);
+			}
 
 			user.username = req.body.username;  // set the users name (comes from the request)
-        user.uid = req.body.uid;
-        user.firstname = req.body.firstname;
-        user.lastname = req.body.lastname;
+        	user.uid = req.body.uid;
+        	user.firstname = req.body.firstname;
+        	user.lastname = req.body.lastname;
         
 			user.save(function(err) {
 				if (err)
@@ -64,16 +67,17 @@ router.put('/:user_id', function(req, res) {
 			});
 
 		});
-	})
+	});
 
 	// delete the user with this id
 router.delete('/:user_id', function(req, res) {
 		User.remove({
 			_id: req.params.user_id
 		}, function(err, user) {
-			if (err)
+			if (err) {
 				res.send(err);
-
+			}
+			
 			res.json({ message: 'Successfully deleted' });
 		});
 });

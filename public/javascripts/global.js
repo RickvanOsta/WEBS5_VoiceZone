@@ -12,6 +12,10 @@ $(document).ready(function() {
     populateTable();
     // Username link click
     $('#userList table tbody').on('click', 'td a.linkshowuser', showUserDetail);
+    //add user
+    $('#btnAddUser').on('click', addUser);
+    // Delete User link click
+    $('#userList table tbody').on('click', 'td a.linkdeleteuser', deleteUser);
 });
 
 
@@ -40,7 +44,7 @@ function populateTable() {
     });
 }
 
-
+//Show user detail
 function showUserDetail(event) {
 
     //Prevent link from firing
@@ -59,4 +63,75 @@ function showUserDetail(event) {
     $('#userInfoUsername').text(user.username);
     $('#userInfoFirstName').text(user.firstname);
     $('#userInfoLastName').text(user.lastname);
+    $('#userInfoUid').text(user.uid);
+}
+
+//Add user
+function addUser(event) {
+    event.preventDefault();
+
+    //basic validation if input = empty
+    var errorCount = 0;
+    $('#addUser input').each(function(index, val) {
+        if($(this).val() === '') {
+            errorCount++;
+        }
+    });
+
+    if (errorCount === 0) {
+
+        var newUser = {
+            "username": $('#addUser fieldset input#inputUserName').val(),
+            "firstname": $('#addUser fieldset input#inputFirstName').val(),
+            "lastname": $('#addUser fieldset input#inputLastName').val(),
+            'uid': $('#addUser fieldset input#inputUid').val()
+        };
+
+        console.log(newUser);
+
+        //ajax post
+        $.ajax({
+           type:'POST',
+           data: newUser,
+           url: '/users',
+           dataType: 'JSON',
+           error: handleError
+        }).done(function(response) {
+            //clear form
+            $('#addUser fieldset input').val('');
+
+            //update
+            populateTable();
+        });
+    } else {
+        //validation fail
+        alert('Please fill in all fields');
+        return false;
+    }
+}
+
+function deleteUser(event) {
+    event.preventDefault();
+
+    var confirmation = confirm("Are you sure you want to delete this user?");
+    var url = "/users/" + $(this).attr('rel');
+    //if yes
+    if (confirmation) {
+
+        $.ajax({
+           type: "DELETE",
+           url: url,
+           error: handleError
+        }).done(function(response) {
+            //update table
+            populateTable();
+        });
+    } else {
+        return false;
+    }
+}
+
+function handleError(jqXHR, textStatus, errorThrown) {
+    jsonValue = jQuery.parseJSON(jqXHR.responseText);
+    console.log(jsonValue.Message);
 }
