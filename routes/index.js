@@ -51,6 +51,12 @@ module.exports = function(app, passport) {
             user : req.user // get the user out of session and pass to template
         });
     });
+    
+    app.get('/facebooklogin', isLoggedIn, function(req, res) {
+        res.render('fbinfo.ejs', {
+            user : req.user // get the user out of session and pass to template
+        });
+    });
 
     // =====================================
     // LOGOUT ==============================
@@ -69,7 +75,7 @@ module.exports = function(app, passport) {
     // handle the callback after facebook has authenticated the user
     app.get('/auth/facebook/callback',
         passport.authenticate('facebook', {
-            successRedirect : '/admin',
+            successRedirect : '/fbinfo',
             failureRedirect : '/'
         }));
 
