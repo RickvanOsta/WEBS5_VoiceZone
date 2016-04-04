@@ -36,7 +36,9 @@ router.post('/', uploads.single('upl'), function(req, res) {
 
 		var voice = new Voice();		// create a new instance of the Voice model
 		voice.title = req.file.originalname;  // set the voices name (comes from the request)
-        voice.fileLocation = req.file.path;
+		var path = req.file.path;
+		path.replace('public', '');
+        voice.fileLocation = path;
         voice.user = "57024f4c6afe5c1100a83d67";//req.body.uid;
 
 		voice.save(function(err) {
@@ -46,22 +48,6 @@ router.post('/', uploads.single('upl'), function(req, res) {
 			res.json({ message: 'Voice created!', uploadedFile: req.file });
 		});
 });
-
-router.post('/test', uploads.single('upl') ,function(req, res) {
-	//console.log(req.body);
-	console.log("FILE RECEIVED: " + req.file); // files
-	console.log(multer);
-
-	fs.readFile('./public/uploads', function(err, data) {
-		if (err) {
-			return console.error("ERROR: " + err);
-		}
-		console.log("Received data: " + data);
-	});
-
-	res.json({ uploadedFile: req.file});
-});
-
 
 /* USERS + ID's */
 // get the voice with that id
