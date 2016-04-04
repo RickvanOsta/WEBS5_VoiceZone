@@ -56,9 +56,9 @@ module.exports = function(app, passport) {
         res.json(req.user) // get the user out of session and pass to template
     });
     
-    app.get('/loginfail'), function(req, res){
+    app.get('/loginfail', function(req, res){
         res.send("false");        
-    }
+    });
 
     // =====================================
     // LOGOUT ==============================
