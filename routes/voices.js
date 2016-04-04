@@ -4,7 +4,7 @@ var multer = require('multer');
 var Voice = require('../models/voice');
 
 var uploads = multer({
-	dest: 'uploads/',
+	dest: './public/uploads/',
 	rename: function (fieldname, filename) {
 		console.log("Rename...");
 		return filename;
@@ -52,7 +52,7 @@ router.post('/test', uploads.single('upl') ,function(req, res) {
 	console.log("FILE RECEIVED: " + req.file); // files
 	console.log(multer);
 
-	fs.readFile('./uploads', function(err, data) {
+	fs.readFile('./public/uploads', function(err, data) {
 		if (err) {
 			return console.error("ERROR: " + err);
 		}
