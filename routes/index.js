@@ -55,6 +55,10 @@ module.exports = function(app, passport) {
     app.get('/facebooklogin', isLoggedIn, function(req, res) {
         res.json(req.user) // get the user out of session and pass to template
     });
+    
+    app.get('/loginfail'), function(req, res){
+        res.send("false");        
+    }
 
     // =====================================
     // LOGOUT ==============================
@@ -74,7 +78,7 @@ module.exports = function(app, passport) {
     app.get('/auth/facebook/callback',
         passport.authenticate('facebook', {
             successRedirect : '/facebooklogin',
-            failureRedirect : '/'
+            failureRedirect : '/loginfail'
         }));
 
     // route for logging out
