@@ -1,22 +1,8 @@
 var express = require('express');
-var multer = require('multer');
 var router = express.Router();
 var fs = require('fs');
 var User = require('../models/user');
 
-var uploads = multer({
-	dest: 'uploads/',
-	rename: function (fieldname, filename) {
-		console.log("Rename...");
-		return filename;
-	},
-	onFileUploadStart: function () {
-		console.log("Upload is starting...");
-	},
-	onFileUploadComplete: function () {
-		console.log("File uploaded");
-	}
-});
 /* USERS */
 /* GET users listing. */
 router.get('/', function(req, res) {
@@ -100,35 +86,6 @@ router.get('/:user_id/voices',  function(req, res) {
 		console.log(req.params.user_id);
 		//console.log(res);
 
-});
-
-router.post('/test', uploads.single('upl') ,function(req, res) {
-	//console.log(req.body);
-	console.log("FILE RECEIVED: " + req.file); // files
-	console.log(multer);
-
-	fs.readdir('./uploads', function(err, data) {
-		if (err) {
-			return console.error("ERROR: " + err);
-		}
-		console.log("Received data: " + data);
-	});
-
-	res.json({ uploadedFile: req.file});
-});
-
-router.get('/directory', function (req, res) {
-
-	console.log('directory!');
-
-	fs.readdir('./uploads', function(err, data) {
-		if (err) {
-			return console.error("ERROR: " + err);
-		}
-		console.log("Received data: " + data);
-	});
-
-	//res.json({readdir: "readdir page"});
 });
 
 
