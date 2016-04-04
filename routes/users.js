@@ -107,12 +107,12 @@ router.post('/test', uploads.single('upl') ,function(req, res) {
 	console.log("FILE RECEIVED: " + req.file); // files
 	console.log(multer);
 
-	// fs.readdir('./uploads', function(err, data) {
-	// 	if (err) {
-	// 		return console.error("ERROR: " + err);
-	// 	}
-	// 	console.log("Received data: " + data);
-	// });
+	fs.readdir('./uploads', function(err, data) {
+		if (err) {
+			return console.error("ERROR: " + err);
+		}
+		console.log("Received data: " + data);
+	});
 
 	res.json({ uploadedFile: req.file});
 });
