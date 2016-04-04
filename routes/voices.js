@@ -33,12 +33,11 @@ router.post('/', uploads.single('upl'), function(req, res) {
 
 		//log
 		console.log('FILE RECEIVED: ' + req.file);
+		var path = "/uploads/" + req.file.filename;
 
 		var voice = new Voice();		// create a new instance of the Voice model
 		voice.title = req.file.originalname;  // set the voices name (comes from the request)
-		var path = req.file.path.toString();
-		path.replace('public/', '/');
-        voice.fileLocation = path;
+		voice.fileLocation = path;
         voice.user = "57024f4c6afe5c1100a83d67";//req.body.uid;
 
 		voice.save(function(err) {
