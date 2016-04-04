@@ -53,9 +53,7 @@ module.exports = function(app, passport) {
     });
     
     app.get('/facebooklogin', isLoggedIn, function(req, res) {
-        res.render('fbinfo.ejs', {
-            user : req.user // get the user out of session and pass to template
-        });
+        res.json(req.user) // get the user out of session and pass to template
     });
 
     // =====================================
