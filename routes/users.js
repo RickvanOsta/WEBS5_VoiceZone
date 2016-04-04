@@ -1,6 +1,7 @@
 var express = require('express');
 var multer = require('multer');
 var router = express.Router();
+var fs = require('fs');
 var User = require('../models/user');
 
 var uploads = multer({
@@ -29,8 +30,6 @@ router.get('/', function(req, res) {
 
 /* POST users listing. */
 router.post('/', function(req, res) {
-
-    
 		var user = new User();		// create a new instance of the User model
 		user.username = req.body.username;  // set the users name (comes from the request)
         user.uid = req.body.uid;
@@ -105,12 +104,31 @@ router.get('/:user_id/voices',  function(req, res) {
 
 router.post('/test', uploads.single('upl') ,function(req, res) {
 	//console.log(req.body);
-	console.log("FILE RECEIEVED: " + req.files); // files
-	console.log(req.body.upl);
+	console.log("FILE RECEIVED: " + req.file); // files
 	console.log(multer);
 
-	res.json({ message: 'uploaded: ' + req.body.upl});
-	//res.status(204).end();
+	// fs.readdir('./uploads', function(err, data) {
+	// 	if (err) {
+	// 		return console.error("ERROR: " + err);
+	// 	}
+	// 	console.log("Received data: " + data);
+	// });
+
+	res.json({ uploadedFile: req.file});
+});
+
+router.get('/directory', function (req, res) {
+
+	console.log('directory!');
+
+	fs.readdir('./uploads', function(err, data) {
+		if (err) {
+			return console.error("ERROR: " + err);
+		}
+		console.log("Received data: " + data);
+	});
+
+	//res.json({readdir: "readdir page"});
 });
 
 
