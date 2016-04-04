@@ -1,7 +1,21 @@
 var express = require('express');
+var multer = require('multer');
 var router = express.Router();
 var User = require('../models/user');
 
+var uploads = multer({
+	dest: 'uploads/',
+	rename: function (fieldname, filename) {
+		console.log("Rename...");
+		return filename;
+	},
+	onFileUploadStart: function () {
+		console.log("Upload is starting...");
+	},
+	onFileUploadComplete: function () {
+		console.log("File uploaded");
+	}
+});
 /* USERS */
 /* GET users listing. */
 router.get('/', function(req, res) {
@@ -84,9 +98,19 @@ router.delete('/:user_id', function(req, res) {
 
 
 router.get('/:user_id/voices',  function(req, res) {
-		console.log(req);
-		console.log(res);
-		
+		console.log(req.params.user_id);
+		//console.log(res);
+
+});
+
+router.post('/test', uploads.single('upl') ,function(req, res) {
+	//console.log(req.body);
+	console.log("FILE RECEIEVED: " + req.files); // files
+	console.log(req.body.upl);
+	console.log(multer);
+
+	res.json({ message: 'uploaded: ' + req.body.upl});
+	//res.status(204).end();
 });
 
 
