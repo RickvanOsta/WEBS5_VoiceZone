@@ -4,6 +4,7 @@ var mongoose     = require('mongoose');
 
 	var voiceSchema = new Schema({
 		title: { type: String, required: true },
+		fileName: { type: String, required: true},
 		fileLocation: { type: String, required: true },
         user: { type: mongoose.Schema.Types.ObjectId, ref: "User" }
 	});

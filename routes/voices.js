@@ -17,7 +17,7 @@ var uploads = multer({
 	}
 });
 
-/* USERS */
+/* VOICES */
 /* GET voices listing. */
 router.get('/', function(req, res) {
         Voice.find(function(err, voices) {
@@ -35,10 +35,13 @@ router.post('/', uploads.single('upl'), function(req, res) {
 		console.log('FILE RECEIVED: ' + req.file);
 		var path = "/uploads/" + req.file.filename;
 
+
+		//ADD VOICE FILE, NO USER IS BEING SENT TO THIS YET SO UPDATE AFTER THE VOICE HAS BEEN ADDED
 		var voice = new Voice();		// create a new instance of the Voice model
 		voice.title = req.file.originalname;  // set the voices name (comes from the request)
+		voice.fileName = req.file.filename;
 		voice.fileLocation = path;
-        voice.user = "57024f4c6afe5c1100a83d67";//req.body.uid;
+        voice.user = "";//req.body.uid;
 
 		voice.save(function(err) {
 			if (err) {
@@ -48,35 +51,52 @@ router.post('/', uploads.single('upl'), function(req, res) {
 		});
 });
 
-/* USERS + ID's */
+/* ID's */
 // get the voice with that id
 router.get('/:voice_id', function(req, res) {
 		Voice.findById(req.params.voice_id, function(err, voice) {
-			if (err)
+			if (err) {
 				res.send(err);
+			}
 			res.json(voice);
 		});
-	});
+});
 
-	// update the voice with this id
-router.put('/:voice_id', function(req, res) {
-		Voice.findById(req.params.voice_id, function(err, voice) {
+	// update the voice with this filename
+router.put('/:voice_fileName', function(req, res) {
+		Voice.find({ fileName: req.params.voice_fileName}, function(err, voice) {
 
-			if (err)
+			if (err) {
 				res.send(err);
+			}
 
-			voice.title = req.body.title;  // set the voices name (comes from the request)
-            voice.fileLocation = req.body.fileLocation; 
-            voice.user = req.body.uid; 
+			voice.user = req.body.uid;
 			voice.save(function(err) {
-				if (err)
+				if (err) {
 					res.send(err);
+				}
 
-				res.json({ message: 'Voice updated!' });
-			});
-
+				res.json({ message: "Voice updated"});
+			})
 		});
-	})
+		// Voice.findById(req.params.voice_id, function(err, voice) {
+        //
+		// 	if (err) {
+		// 		res.send(err);
+		// 	}
+        //
+		// 	voice.title = req.body.title;  // set the voices name (comes from the request)
+         //    voice.fileLocation = req.body.fileLocation;
+         //    voice.user = req.body.uid;
+		// 	voice.save(function(err) {
+		// 		if (err)
+		// 			res.send(err);
+        //
+		// 		res.json({ message: 'Voice updated!' });
+		// 	});
+        //
+		// });
+});
 
 	// delete the voice with this id
 router.delete('/:voice_id', function(req, res) {
