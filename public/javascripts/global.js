@@ -11,8 +11,6 @@ $(document).ready(function() {
 
     // Populate the user table on initial page load
     populateTable();
-    // Username link click
-    $('#userList table tbody').on('click', 'td a.linkshowuser', showUserDetail);
     //add user
     $('#btnAddUser').on('click', addUser);
     // Delete User link click
@@ -34,9 +32,9 @@ function populateTable() {
 
         $.each(data, function() {
            tableContent += "<tr>";
-           tableContent += "<td><a href='#' class='linkshowuser' rel='" + this.username + "'>" + this.username + "</a></td>";
-           tableContent += "<td>" + this.firstname + "</td>";
-           tableContent += "<td>" + this.lastname + "</td>";
+           tableContent += "<td><a href='#' class='linkshowuser' rel='" + this.facebook.name + "'>" + this.facebook.name + "</a></td>";
+           tableContent += "<td>" + this.facebook.email + "</td>";
+           tableContent += "<td>" + this.facebook.token + "</td>";
            tableContent += "<td><a href='#' class='linkdeleteuser' rel='" + this._id + "'>delete</a></td>";
            tableContent += "</tr>";
         });
@@ -60,28 +58,6 @@ function populateTable() {
             tableContentVoices += "</tr>";
         });
     });
-}
-
-//Show user detail
-function showUserDetail(event) {
-
-    //Prevent link from firing
-    event.preventDefault();
-
-    //retrieve username from link rel attribute
-    var selectedUsername = $(this).attr('rel');
-
-    //get index of object based on id value
-    var arrayPosition = users.map(function(arrayItem) { return arrayItem.username; }).indexOf(selectedUsername);
-
-    //get user from list
-    var user = users[arrayPosition];
-
-    //Populate Info Box
-    $('#userInfoUsername').text(user.username);
-    $('#userInfoFirstName').text(user.firstname);
-    $('#userInfoLastName').text(user.lastname);
-    $('#userInfoUid').text(user.uid);
 }
 
 //Add user
