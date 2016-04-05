@@ -44,6 +44,26 @@
             </div>
             <!-- /userlist -->
 
+            <!-- voicelist -->
+            <h2>Voices</h2>
+
+            <div id="voiceList">
+                <table>
+                    <thead>
+                    <tr>
+                        <td>Title</td>
+                        <td>Filename</td>
+                        <td>Filelocation</td>
+                        <td>user id</td>
+                        <td>delete?</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+            <!-- /voicelist -->
+
             <!-- ADD USER -->
             <div id="addUser">
                 <fieldset>
@@ -55,13 +75,6 @@
                 </fieldset>
             </div>
             <!-- /ADD USER -->
-
-
-            <!-- TEST ADD FILES -->
-            <form method="post" enctype="multipart/form-data", action="/voices">
-                <input type="file" name="upl">
-                <input type="submit" value="Submit">
-            </form>
         </div>
 
         <!-- /wrapper -->

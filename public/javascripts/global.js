@@ -4,6 +4,7 @@
 
 //userlist
 var users = [];
+var voices = [];
 
 // DOM Ready =============================================================
 $(document).ready(function() {
@@ -16,6 +17,7 @@ $(document).ready(function() {
     $('#btnAddUser').on('click', addUser);
     // Delete User link click
     $('#userList table tbody').on('click', 'td a.linkdeleteuser', deleteUser);
+    $('#voiceList table tbody').on('click', 'td a.linkdeletevoice', deleteVoice);
 });
 
 
@@ -41,6 +43,22 @@ function populateTable() {
 
         //inject content in table
         $('#userList table tbody').html(tableContent);
+    });
+
+    var tableContentVoices = "";
+
+    $.getJSON('/voices', function(data) {
+        voices = data;
+
+        $.each(data, function() {
+            tableContentVoices += "<tr>";
+            tableContentVoices += "<td>" + this.title + "</a></td>";
+            tableContentVoices += "<td>" + this.fileName + "</td>";
+            tableContentVoices += "<td>" + this.fileLocation + "</td>";
+            tableContentVoices += "<td>" + this.user + "</td>";
+            tableContentVoices += "<td><a href='#' class='linkdeletevoice' rel='" + this._id + "'>delete</a></td>";
+            tableContentVoices += "</tr>";
+        });
     });
 }
 
@@ -126,6 +144,26 @@ function deleteUser(event) {
             //update table
             populateTable();
         });
+    } else {
+        return false;
+    }
+}
+
+function deleteVoice(event) {
+    event.preventDefault();
+
+    var confirmation = confirm('Are you sure you want to delete this voice note?');
+    var url = "/voices/" + $(this).attr('rel');
+
+    if (confirmation) {
+
+        $.ajax({
+            type: "DELETE",
+            url: url,
+            error: handleError
+        }).done(function(response) {
+            populateTable();
+        })
     } else {
         return false;
     }
