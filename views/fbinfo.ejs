@@ -14,18 +14,13 @@
     <div class="jumbotron text-center">
         <h1><span class="fa fa-check"></span> Login Successful</h1>
         <h3>Welcome, <%= user.facebook.name %>.</h3>
-        <p>
-        <a id="backbut" href="#">Press this to continue.</a>
-        </p>
     </div>
 
 </div>
 </body>
 
 <script>
-document.getElementById("backbut").onclick = function () { 
         localStorage.setItem('close', 'true'); 
-    }; 
 </script>
 
 
