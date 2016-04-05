@@ -67,7 +67,7 @@ router.put('/:voice_fileName', function(req, res) {
 
 		console.log('filename = ' + req.params.voice_fileName);
 		console.log('body: ');
-		console.log(req.body);
+		console.log(req.body.uid);
 		Voice.find({ fileName: req.params.voice_fileName}).exec(function(err, voice) {
 
 			if (err) {
