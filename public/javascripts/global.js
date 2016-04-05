@@ -29,14 +29,14 @@ function populateTable() {
     $.getJSON('/users', function(data) {
 
         users = data;
-
+        console.log(data);
         $.each(data, function() {
-           tableContent += "<tr>";
-           tableContent += "<td><a href='#' class='linkshowuser' rel='" + this.facebook.name + "'>" + this.facebook.name + "</a></td>";
-           tableContent += "<td>" + this.facebook.email + "</td>";
-           tableContent += "<td>" + this.facebook.token + "</td>";
-           tableContent += "<td><a href='#' class='linkdeleteuser' rel='" + this._id + "'>delete</a></td>";
-           tableContent += "</tr>";
+            tableContent += "<tr>";
+            tableContent += "<td><a href='#' class='linkshowuser' rel='" + this.facebook.name + "'>" + this.facebook.name + "</a></td>";
+            tableContent += "<td>" + this.facebook.email + "</td>";
+            tableContent += "<td>" + this.facebook.token + "</td>";
+            tableContent += "<td><a href='#' class='linkdeleteuser' rel='" + this._id + "'>delete</a></td>";
+            tableContent += "</tr>";
         });
 
         //inject content in table
@@ -46,6 +46,7 @@ function populateTable() {
     var tableContentVoices = "";
 
     $.getJSON('/voices', function(data) {
+        console.log(data);
         voices = data;
 
         $.each(data, function() {
