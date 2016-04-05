@@ -86,6 +86,9 @@ router.delete('/:user_id', function(req, res) {
 router.get('/:user_id/voices',  function(req, res) {
 		console.log(req.params.user_id);
 		//console.log(res);
+		Voice.find({ user: req.params.user_id}).exec(function (err, voices) {
+			res.json(voices);
+		});
 	
 });
 
