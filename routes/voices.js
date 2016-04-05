@@ -64,6 +64,10 @@ router.get('/:voice_id', function(req, res) {
 
 	// update the voice with this filename
 router.put('/:voice_fileName', function(req, res) {
+
+		console.log('filename = ' + req.params.voice_fileName);
+		console.log('body: ');
+		console.log(req.body);
 		Voice.find({ fileName: req.params.voice_fileName}).exec(function(err, voice) {
 
 			if (err) {
