@@ -41,7 +41,7 @@ router.post('/', uploads.single('upl'), function(req, res) {
 		voice.title = req.file.originalname;  // set the voices name (comes from the request)
 		voice.fileName = req.file.filename;
 		voice.fileLocation = path;
-        voice.user = "test1234";//req.body.uid;
+        voice.user = "56fd16a4d8996a742ae10954";//req.body.uid;
 
 		voice.save(function(err) {
 			if (err) {
