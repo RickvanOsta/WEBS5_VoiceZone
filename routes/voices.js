@@ -47,7 +47,7 @@ router.post('/', uploads.single('upl'), function(req, res) {
 			if (err) {
 				res.send(err);
 			}
-			res.json({ message: 'Voice created!', uploadedFile: req.file });
+			res.json({ message: 'Voice created!', uploadedFile: req.file, filename: req.file.filename });
 		});
 });
 
