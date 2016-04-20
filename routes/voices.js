@@ -3,6 +3,8 @@ var router = express.Router();
 var multer = require('multer');
 var Voice = require('../models/voice');
 var configAuth = require('../config/auth');
+var SC = require('node-soundcloud');
+
 
 
 
@@ -33,6 +35,20 @@ router.get('/', function(req, res) {
 });
 
 router.get('/test', function(req, res) {
+        SC.init({
+            id: configAuth.soundcloudAuth.clientID,
+            secret: configAuth.soundcloudAuth.clientSecret,
+            uri: configAuth.soundcloudAuth.callbackURL,
+            accessToken: req.session.scAccessToken
+        });
+        
+        SC.get('/tracks/164497989', function(err, track) {
+  if ( err ) {
+    throw err;
+  } else {
+    console.log('track retrieved:', track);
+  }
+});
         res.json({sessionToken: req.session.scAccessToken});
 });
 
