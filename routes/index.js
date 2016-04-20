@@ -1,13 +1,5 @@
-var SC = require('node-soundcloud');
 var configAuth = require('../config/auth');
 
-
-SC.init({
-            id: configAuth.soundcloudAuth.clientID,
-            secret: configAuth.soundcloudAuth.clientSecret,
-            uri: configAuth.soundcloudAuth.callbackURL
-        });
-        
 
 module.exports = function(app, passport) {
 
@@ -103,33 +95,6 @@ module.exports = function(app, passport) {
         req.logout();
         res.redirect('/');
     });
-    
-    
-    //SOUNDCLOUD ROUTES
-    app.get('/auth/soundcloud', function(req, res) {
-        var url = SC.getConnectUrl();
- 
-        res.writeHead(301, {'Location': url});
-        res.end();    
-        
-    });
-   
-    app.get('/auth/soundcloud/callback', function(req, res) {
-        
-        var code = req.query.code;
- 
-        SC.authorize(code, function(err, accessToken) {
-            if ( err ) {
-                throw err;
-            } else {
-                // Client is now authorized and able to make API calls 
-                req.session.scAccessToken = accessToken;
-                res.json(accessToken);
-                console.log('access token:', accessToken);
-            }
-        });
-   });
-   
    
    
    

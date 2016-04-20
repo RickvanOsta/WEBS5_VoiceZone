@@ -3,9 +3,13 @@ var router = express.Router();
 var multer = require('multer');
 var Voice = require('../models/voice');
 var configAuth = require('../config/auth');
-var SC = require('node-soundcloud');
+var SoundCloud = require('soundjs');
 
-
+var sc = new SoundCloud(configAuth.soundcloudAuth.clientID, 
+                        configAuth.soundcloudAuth.clientSecret, 
+                        configAuth.soundcloudAuth.userName, 
+                        configAuth.soundcloudAuth.password, 
+                        configAuth.soundcloudAuth.callbackURL);
 
 
 
@@ -35,14 +39,9 @@ router.get('/', function(req, res) {
 });
 
 router.get('/test', function(req, res) {
-        SC.init({
-            id: configAuth.soundcloudAuth.clientID,
-            secret: configAuth.soundcloudAuth.clientSecret,
-            uri: configAuth.soundcloudAuth.callbackURL,
-            accessToken: req.session.scAccessToken
-        });
-        
-        console.log(SC);
+    sc.playlists().then(function(playlist) {
+        console.log(playlist);
+    });
 });
 
 /* POST voices listing. */

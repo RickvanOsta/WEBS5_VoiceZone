@@ -9,6 +9,8 @@ module.exports = {
     'soundcloudAuth' : {
         'clientID'       : 'adb1352b9daf10b4d9e0e00eaf977dcb',
         'clientSecret'    : '55ffad47f4433e265fea88362ae3633c',
+        'userName'         : 'voicezone',
+        'password'          : 'Voicezone123', 
         'callbackURL'       : 'https://voicezone.herokuapp.com/auth/soundcloud/callback'
     }
 
