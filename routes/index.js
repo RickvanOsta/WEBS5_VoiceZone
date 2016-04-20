@@ -92,7 +92,21 @@ module.exports = function(app, passport) {
         req.logout();
         res.redirect('/');
     });
-
+    
+    
+    //SOUNDCLOUD ROUTES
+    app.get('/auth/soundcloud/callback', function(req, res) {
+  var code = req.query.code;
+ 
+  SC.authorize(code, function(err, accessToken) {
+    if ( err ) {
+      throw err;
+    } else {
+      // Client is now authorized and able to make API calls 
+      console.log('access token:', accessToken);
+    }
+    });
+   });
 };
 
 // route middleware to make sure a user is logged in

@@ -6,16 +6,11 @@ module.exports = {
         'callbackURL'   : 'https://voicezone.herokuapp.com/auth/facebook/callback'
     },
 
-    'twitterAuth' : {
-        'consumerKey'       : 'your-consumer-key-here',
-        'consumerSecret'    : 'your-client-secret-here',
-        'callbackURL'       : 'http://localhost:8080/auth/twitter/callback'
-    },
-
-    'googleAuth' : {
-        'clientID'      : 'your-secret-clientID-here',
-        'clientSecret'  : 'your-client-secret-here',
-        'callbackURL'   : 'http://localhost:8080/auth/google/callback'
+    'soundcloudAuth' : {
+        'clientID'       : 'adb1352b9daf10b4d9e0e00eaf977dcb',
+        'clientSecret'    : '55ffad47f4433e265fea88362ae3633c',
+        'callbackURL'       : 'https://voicezone.herokuapp.com/auth/soundcloud/callback'
     }
+
 
 };

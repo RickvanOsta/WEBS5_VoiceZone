@@ -1,8 +1,15 @@
 var express = require('express');
 var router = express.Router();
 var multer = require('multer');
-var graph = require('fbgraph');
 var Voice = require('../models/voice');
+var SC = require('node-soundcloud');
+var configAuth = require('../config/auth');
+
+SC.init({
+            id: configAuth.soundcloudAuth.clientID,
+            secret: configAuth.soundcloudAuth.clientSecret,
+            uri: configAuth.soundcloudAuth.callbackURL
+        });
 
 
 var uploads = multer({
@@ -31,14 +38,10 @@ router.get('/', function(req, res) {
 });
 
 router.get('/test', function(req, res) {
-        var wallPost = {
-            message: "Dit is een test vanaf de API voor CloudServices."
-        };
-
-        graph.post("/feed", wallPost, function(err, res) {
-            // returns the post id
-            console.log(res); // { id: xxxxx}
-        });
+        var url = SC.getConnectUrl();
+ 
+        res.writeHead(301, Location: url);
+        res.end();        
 });
 
 /* POST voices listing. */
