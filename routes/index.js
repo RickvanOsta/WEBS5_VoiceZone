@@ -1,4 +1,6 @@
 var SC = require('node-soundcloud');
+var configAuth = require('../config/auth');
+
 
 SC.init({
             id: configAuth.soundcloudAuth.clientID,
