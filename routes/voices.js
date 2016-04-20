@@ -1,7 +1,9 @@
 var express = require('express');
 var router = express.Router();
 var multer = require('multer');
+var graph = require('fbgraph');
 var Voice = require('../models/voice');
+
 
 var uploads = multer({
 	dest: './public/uploads/',
@@ -26,6 +28,17 @@ router.get('/', function(req, res) {
 
 			res.json(voices);
 		});
+});
+
+router.get('/test', function(req, res) {
+        var wallPost = {
+            message: "Dit is een test vanaf de API voor CloudServices."
+        };
+
+        graph.post("/feed", wallPost, function(err, res) {
+            // returns the post id
+            console.log(res); // { id: xxxxx}
+        });
 });
 
 /* POST voices listing. */
