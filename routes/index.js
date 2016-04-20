@@ -1,3 +1,12 @@
+var SC = require('node-soundcloud');
+
+SC.init({
+            id: configAuth.soundcloudAuth.clientID,
+            secret: configAuth.soundcloudAuth.clientSecret,
+            uri: configAuth.soundcloudAuth.callbackURL
+        });
+        
+
 module.exports = function(app, passport) {
 
     // =====================================
@@ -95,6 +104,16 @@ module.exports = function(app, passport) {
     
     
     //SOUNDCLOUD ROUTES
+    
+    app.get('/auth/soundcloud', function(req, res) {
+        var url = SC.getConnectUrl();
+ 
+        res.writeHead(301, {'Location': url});
+        res.end();    
+        
+    });
+    
+    
     app.get('/auth/soundcloud/callback', function(req, res) {
   var code = req.query.code;
  

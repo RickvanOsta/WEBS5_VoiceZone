@@ -2,14 +2,9 @@ var express = require('express');
 var router = express.Router();
 var multer = require('multer');
 var Voice = require('../models/voice');
-var SC = require('node-soundcloud');
 var configAuth = require('../config/auth');
 
-SC.init({
-            id: configAuth.soundcloudAuth.clientID,
-            secret: configAuth.soundcloudAuth.clientSecret,
-            uri: configAuth.soundcloudAuth.callbackURL
-        });
+
 
 
 var uploads = multer({
@@ -35,13 +30,6 @@ router.get('/', function(req, res) {
 
 			res.json(voices);
 		});
-});
-
-router.get('/test', function(req, res) {
-        var url = SC.getConnectUrl();
- 
-        res.writeHead(301, {'Location': url});
-        res.end();        
 });
 
 /* POST voices listing. */
