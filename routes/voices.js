@@ -4,6 +4,7 @@ var multer = require('multer');
 var Voice = require('../models/voice');
 var configAuth = require('../config/auth');
 var SoundCloud = require('soundjs');
+var fs = require('fs');
 
 var sc = new SoundCloud(configAuth.soundcloudAuth.clientID, 
                         configAuth.soundcloudAuth.clientSecret, 
@@ -39,9 +40,12 @@ router.get('/', function(req, res) {
 });
 
 router.get('/test', function(req, res) {
-    sc.playlists().then(function(playlist) {
-        res.json({list : playlist});
-        console.log(playlist);
+    function source() {
+        return fs.createReadStream('https://voicezone.herokuapp.com/uploads/db4c1dd7b5ca771410dc1016f91dd331');
+    }
+    sc.addTrack('Mooie titel', 'Mooie omschrijving', 'Rock', source).then(function(track){
+        console.log('uploaded track');
+        console.log(track);
     });
 });
 
