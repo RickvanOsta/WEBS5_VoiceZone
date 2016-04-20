@@ -16,6 +16,9 @@ var bcrypt   = require('bcrypt-nodejs');
         name         : String,
         photoUrl     : String,
         gender       : String
+    },
+    soundcloud       : {
+        token        : String
     }
 	});
     

@@ -106,7 +106,6 @@ module.exports = function(app, passport) {
     
     
     //SOUNDCLOUD ROUTES
-    
     app.get('/auth/soundcloud', function(req, res) {
         var url = SC.getConnectUrl();
  
@@ -114,20 +113,26 @@ module.exports = function(app, passport) {
         res.end();    
         
     });
-    
-    
+   
     app.get('/auth/soundcloud/callback', function(req, res) {
-  var code = req.query.code;
+        
+        var code = req.query.code;
  
-  SC.authorize(code, function(err, accessToken) {
-    if ( err ) {
-      throw err;
-    } else {
-      // Client is now authorized and able to make API calls 
-      console.log('access token:', accessToken);
-    }
-    });
+        SC.authorize(code, function(err, accessToken) {
+            if ( err ) {
+                throw err;
+            } else {
+                // Client is now authorized and able to make API calls 
+                req.session.scAccessToken = accessToken;
+                res.json(accessToken);
+                console.log('access token:', accessToken);
+            }
+        });
    });
+   
+   
+   
+   
 };
 
 // route middleware to make sure a user is logged in

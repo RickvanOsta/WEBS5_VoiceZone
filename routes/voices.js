@@ -32,6 +32,10 @@ router.get('/', function(req, res) {
 		});
 });
 
+router.get('/test', function(req, res) {
+        res.json({sessionToken: req.session.scAccessToken});
+});
+
 /* POST voices listing. */
 router.post('/', uploads.single('upl'), function(req, res) {
 
