@@ -42,15 +42,7 @@ router.get('/test', function(req, res) {
             accessToken: req.session.scAccessToken
         });
         
-        SC.put('/me', {
-  user: { description: 'I am using the SoundCloud API!' }
-}).then(function(){
-  return SC.get('/me');
-}).then(function(me){
-  console.log(me.description);
-}).catch(function(error){
-  alert('Error: ' + error.message);
-});
+        console.log(SC);
 });
 
 /* POST voices listing. */
