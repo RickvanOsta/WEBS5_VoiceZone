@@ -13,7 +13,9 @@ var bcrypt   = require('bcrypt-nodejs');
         id           : String,
         token        : String,
         email        : String,
-        name         : String
+        name         : String,
+        photoUrl     : String,
+        gender       : String
     }
 	});
     

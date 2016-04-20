@@ -22,6 +22,8 @@ router.post('/', function(req, res) {
         user.uid = req.body.uid;
         user.firstname = req.body.firstname;
         user.lastname = req.body.lastname;
+        user.photoUrl = req.body.photoUrl;
+        user.gender = req.body.gender;
 
 		user.save(function(err) {
 			if (err) {
@@ -58,6 +60,9 @@ router.put('/:user_id', function(req, res) {
         	user.uid = req.body.uid;
         	user.firstname = req.body.firstname;
         	user.lastname = req.body.lastname;
+            user.photoUrl = req.body.photoUrl;
+            user.gender = req.body.gender;
+
         
 			user.save(function(err) {
 				if (err)
