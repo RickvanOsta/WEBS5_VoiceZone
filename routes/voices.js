@@ -42,14 +42,15 @@ router.get('/test', function(req, res) {
             accessToken: req.session.scAccessToken
         });
         
-        SC.get('/tracks/164497989', function(err, track) {
-  if ( err ) {
-    throw err;
-  } else {
-    console.log('track retrieved:', track);
-  }
+        SC.put('/me', {
+  user: { description: 'I am using the SoundCloud API!' }
+}).then(function(){
+  return SC.get('/me');
+}).then(function(me){
+  console.log(me.description);
+}).catch(function(error){
+  alert('Error: ' + error.message);
 });
-        res.json({sessionToken: req.session.scAccessToken});
 });
 
 /* POST voices listing. */
