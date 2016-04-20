@@ -40,7 +40,7 @@ router.get('/', function(req, res) {
 router.get('/test', function(req, res) {
         var url = SC.getConnectUrl();
  
-        res.writeHead(301, Location: url);
+        res.writeHead(301, {'Location': url});
         res.end();        
 });
 
