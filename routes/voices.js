@@ -32,7 +32,10 @@ var uploads = multer({
 /* VOICES */
 /* GET voices listing. */
 router.get('/', function(req, res) {
-        Voice.find(function(err, voices) {
+        Voice
+            .find()
+            .populate('user')
+            .exec(function(err, voices) {
 			if (err)
 				res.send(err);
 
@@ -40,9 +43,6 @@ router.get('/', function(req, res) {
 		});
 });
 
-router.get('/test', function(req, res) {
-    
-});
 
 /* POST voices listing. */
 router.post('/', uploads.single('upl'), function(req, res) {
