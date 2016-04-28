@@ -62,14 +62,15 @@ router.post('/', uploads.single('upl'), function(req, res) {
         
         sc.playlists().then(function(playlist){
         voice.playList = playlist;
-        });
-
-		voice.save(function(err) {
+        voice.save(function(err) {
 			if (err) {
 				res.send(err);
 			}
 			res.json({ message: 'Voice created!', uploadedFile: req.file, filename: req.file.filename });
 		});
+        });
+
+		
 });
 
 /* ID's */
