@@ -2,7 +2,18 @@ var express = require('express');
 var router = express.Router();
 var fs = require('fs');
 var User = require('../models/user');
-var Voice = require('../models/voice')
+var Voice = require('../models/voice');
+var configAuth = require('../config/auth');
+var SoundCloud = require('soundjs');
+
+
+var sc = new SoundCloud(configAuth.soundcloudAuth.clientID, 
+                        configAuth.soundcloudAuth.clientSecret, 
+                        configAuth.soundcloudAuth.userName, 
+                        configAuth.soundcloudAuth.password, 
+                        configAuth.soundcloudAuth.callbackURL);
+
+
 
 /* USERS */
 /* GET users listing. */
