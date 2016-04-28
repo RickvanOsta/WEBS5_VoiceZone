@@ -36,7 +36,6 @@ router.post('/', function(req, res) {
 });
 
 
-
 /* USERS + ID's */
 // get the user with that id
 router.get('/:user_id', function(req, res) {

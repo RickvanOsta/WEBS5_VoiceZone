@@ -40,12 +40,8 @@ router.get('/', function(req, res) {
 });
 
 router.get('/test', function(req, res) {
-    function source() {
-        return fs.createReadStream('https://voicezone.herokuapp.com/uploads/db4c1dd7b5ca771410dc1016f91dd331');
-    }
-    sc.addTrack('Mooie titel', 'Mooie omschrijving', 'Rock', source).then(function(track){
-        console.log('uploaded track');
-        console.log(track);
+    sc.playlists.then(function(playlist){
+       console.log(playlist); 
     });
 });
 
