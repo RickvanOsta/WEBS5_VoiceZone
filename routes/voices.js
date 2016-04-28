@@ -3,6 +3,15 @@ var router = express.Router();
 var multer = require('multer');
 var Voice = require('../models/voice');
 var fs = require('fs');
+var configAuth = require('../config/auth');
+var SoundCloud = require('soundjs');
+
+
+var sc = new SoundCloud(configAuth.soundcloudAuth.clientID, 
+                        configAuth.soundcloudAuth.clientSecret, 
+                        configAuth.soundcloudAuth.userName, 
+                        configAuth.soundcloudAuth.password, 
+                        configAuth.soundcloudAuth.callbackURL);
 
 
 
@@ -49,6 +58,11 @@ router.post('/', uploads.single('upl'), function(req, res) {
 		voice.fileName = req.file.filename;
 		voice.fileLocation = path;
         voice.user = "56fd16a4d8996a742ae10954";//req.body.uid;
+        voice.playlist = "";
+        
+        sc.playlists().then(function(playlist){
+        voice.playList = playlist;
+        });
 
 		voice.save(function(err) {
 			if (err) {

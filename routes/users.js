@@ -3,15 +3,8 @@ var router = express.Router();
 var fs = require('fs');
 var User = require('../models/user');
 var Voice = require('../models/voice');
-var configAuth = require('../config/auth');
-var SoundCloud = require('soundjs');
 
 
-var sc = new SoundCloud(configAuth.soundcloudAuth.clientID, 
-                        configAuth.soundcloudAuth.clientSecret, 
-                        configAuth.soundcloudAuth.userName, 
-                        configAuth.soundcloudAuth.password, 
-                        configAuth.soundcloudAuth.callbackURL);
 
 
 
@@ -33,14 +26,6 @@ router.post('/', function(req, res) {
         user.uid = req.body.uid;
         user.firstname = req.body.firstname;
         user.lastname = req.body.lastname;
-        
-        
-        user.playList = "";
-        
-        
-        sc.playlists().then(function(playlist){
-        user.playList = playlist;
-        console.log(user);
         user.save(function(err) {
 			if (err) {
 				res.send(err);
@@ -48,11 +33,8 @@ router.post('/', function(req, res) {
 			console.log('USER CREATED');
 			res.json({ message: 'User created!' });
 		});
-        });
         
-        
-        
-		
+
 
 });
 
