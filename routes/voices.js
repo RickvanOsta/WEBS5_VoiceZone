@@ -61,7 +61,9 @@ router.post('/', uploads.single('upl'), function(req, res) {
         voice.playlist = "";
         
         sc.playlists().then(function(playlist){
-        voice.playlist = playlist;
+        voice.playlist.url = playlist[0].permalink_url;
+        voice.playlist.genre = playlist[0].genre;
+        voice.playlist.desc = playlist[0].description;
         console.log(playlist);
         console.log(voice);
         voice.save(function(err) {

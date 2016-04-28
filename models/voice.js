@@ -7,7 +7,11 @@ var mongoose     = require('mongoose');
 		fileName: { type: String, required: true},
 		fileLocation: { type: String, required: true },
         user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-        playlist : { type: String }
+        playlist         : {
+        url           : String,
+        genre        : String,
+        desc        : String,
+        }
 	});
 	// /Statics
 	var Voice = mongoose.model('Voice', voiceSchema);
