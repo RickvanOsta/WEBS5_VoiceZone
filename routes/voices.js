@@ -40,10 +40,7 @@ router.get('/', function(req, res) {
 });
 
 router.get('/test', function(req, res) {
-    sc.playlists().then(function(playlist){
-       res.json({list : playlist});
-       console.log(playlist); 
-    });
+    
 });
 
 /* POST voices listing. */

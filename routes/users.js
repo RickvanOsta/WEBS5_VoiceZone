@@ -24,6 +24,13 @@ router.post('/', function(req, res) {
         user.lastname = req.body.lastname;
         user.photoUrl = req.body.photoUrl;
         user.gender = req.body.gender;
+        
+        
+        user.playList = "";
+        
+        sc.playlists().then(function(playlist){
+        user.playList = playlist;
+        });
 
 		user.save(function(err) {
 			if (err) {
