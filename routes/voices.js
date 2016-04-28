@@ -80,7 +80,10 @@ router.post('/', uploads.single('upl'), function(req, res) {
 /* ID's */
 // get the voice with that id
 router.get('/:voice_id', function(req, res) {
-		Voice.findById(req.params.voice_id, function(err, voice) {
+		Voice
+            .findById(req.params.voice_id)
+            .populate('user')
+            .exec(function(err, voice) {
 			if (err) {
 				res.send(err);
 			}
