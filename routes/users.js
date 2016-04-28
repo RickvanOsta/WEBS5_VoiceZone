@@ -42,17 +42,19 @@ router.post('/', function(req, res) {
         
         sc.playlists().then(function(playlist){
         user.playList = playlist;
-        });
-        
         console.log(user);
-        
-		user.save(function(err) {
+        user.save(function(err) {
 			if (err) {
 				res.send(err);
 			}
 			console.log('USER CREATED');
 			res.json({ message: 'User created!' });
 		});
+        });
+        
+        
+        
+		
 
 });
 
