@@ -39,10 +39,13 @@ router.post('/', function(req, res) {
         
         user.playList = "";
         
+        
         sc.playlists().then(function(playlist){
         user.playList = playlist;
         });
-
+        
+        console.log(user);
+        
 		user.save(function(err) {
 			if (err) {
 				res.send(err);
