@@ -61,7 +61,9 @@ router.post('/', uploads.single('upl'), function(req, res) {
         voice.playlist = "";
         
         sc.playlists().then(function(playlist){
-        voice.playList = playlist;
+        voice.playlist = playlist;
+        console.log(playlist);
+        console.log(voice);
         voice.save(function(err) {
 			if (err) {
 				res.send(err);
