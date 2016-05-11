@@ -3,9 +3,7 @@ var request = require('supertest');
 var expect = require('chai').expect;
 var should = require('chai').should();
 
-var app = express();
-var voices = require('../routes/voices');
-app.use('/', voices);
+var app = require('../app');
 
 function makeRequest(route, statusCode, done){
 	request(app)
