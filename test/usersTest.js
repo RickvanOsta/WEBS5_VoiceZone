@@ -15,25 +15,54 @@ function makeRequest(route, statusCode, callback){
 
 			callback(err, res);
 		});
-};
+}
+
+function makePutRequest(route, body, statusCode, callback) {
+	request(app)
+		.put(route)
+		.type('json')
+		.send(body)
+		.expect(statusCode)
+		.end(function(err, res) {
+			if(err) { return callback(err) }
+
+			callback(err, res);
+		});
+}
+
+function makePostRequest(route, body, statusCode, callback) {
+	request(app)
+		.post(route)
+		.type('json')
+		.send(body)
+		.expect(statusCode)
+		.end(function(err, res){
+			if(err) { return callback(err) }
+
+			callback(err, res);
+		});
+}
 
 describe('Testing users route', function() {
 	describe('get users', function() {
 
 		it('should return 200 if api can find and return all users', function(done){
-			makeRequest('/', 200, function(err, res){
-
-				//expecten
+			makeRequest('/users', 200, function(err, res){
 				done();
 			});
 		});
 
 		it('should return 200 if api can find a user with specific id', function(done) {
-			makeRequest('/56fd01c8d8996a742ae10953', 200, function(err, res) {
+			makeRequest('/users/56fd01c8d8996a742ae10953', 200, function(err, res) {
 				if (err) {return done(err);}
-
-				console.log(res.body);
+				done();
 			});
+		});
+	});
+
+	describe('put user', function() {
+		it('should update the user', function(done) {
+			makePutRequest()
 		});
 	});
 

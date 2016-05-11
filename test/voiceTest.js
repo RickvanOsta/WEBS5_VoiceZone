@@ -19,17 +19,19 @@ function makeRequest(route, statusCode, done){
 describe('Testing voice route', function() {
 	describe('get voices', function() {
 		it('should return 200 if api can find and return all voices', function(done){
-			makeRequest('/', 200, done);
+			makeRequest('/voices', 200, function(err, res) {
+				done();
+			});
 		});
 
 		it('should return 200 if api can find voice with specific id', function(done) {
-			makeRequest('/5703de8b538b351100129982', 200, function(err, res) {
+			makeRequest('/voices/5721ed0114cf9511001b9e3a', 200, function(err, res) {
 				if (err) {return done(err);}
 
-				console.log(res.body);
+				done();
 			});
 		});
-	})
+	});
 
 	describe('invalid route', function() {
 		it('should return 404 when route is not found', function(done) {
