@@ -11,7 +11,24 @@ var Voice = require('../models/voice');
 /* USERS */
 /* GET users listing. */
 router.get('/', function(req, res) {
-        User.find(function(err, users) {
+
+		var query = {};
+
+		if (req.query.email) {
+			query['local.email'] = req.query.email;
+		}
+		if (req.query.fbName) {
+			query['facebook.name'] = req.query.fbName;
+		}
+		if (req.query.fbEmail) {
+			query['facebook.email'] = req.query.fbEmail;
+		}
+		if (req.query.fbGender) {
+			query['facebook.gender'] = req.query.fbGender;
+		}
+		console.log(query);
+        User.find(query)
+			.exec(function(err, users) {
 			if (err) {
 				res.send(err);
 			}
@@ -19,26 +36,6 @@ router.get('/', function(req, res) {
 			res.json(users);
 		});
 });
-
-/* POST users listing. */
-router.post('/', function(req, res) {
-		var user = new User();		// create a new instance of the User model
-		user._id = req.body._id;
-		user.local.email = req.body.local.email;  // set the users name (comes from the request)
-		user.local.password = req.body.local.password;
-        user.save(function(err) {
-			if (err) {
-				res.send(err);
-			}
-			console.log('USER CREATED');
-            res.status(201);
-			res.json({ message: 'User created!' });
-		});
-        
-
-
-});
-
 
 /* USERS + ID's */
 // get the user with that id
@@ -60,13 +57,8 @@ router.put('/:user_id', function(req, res) {
 				res.send(err);
 			}
 
-			user.username = req.body.username;  // set the users name (comes from the request)
-        	user.uid = req.body.uid;
-        	user.firstname = req.body.firstname;
-        	user.lastname = req.body.lastname;
-            user.photoUrl = req.body.photoUrl;
-            user.gender = req.body.gender;
-
+			console.log(req.body);
+			user.local.email = req.body.email;  // set the users email (comes from the request)
         
 			user.save(function(err) {
 				if (err)
@@ -86,20 +78,29 @@ router.delete('/:user_id', function(req, res) {
 			if (err) {
 				res.send(err);
 			}
-			res.status(200);
+			res.status(202);
 			res.json({ message: 'Successfully deleted' });
 		});
 });
 
 
 router.get('/:user_id/voices',  function(req, res) {
+
+		var query = {};
+		query.user = req.params.user_id;
+		if (req.query.fileName) {
+			query.fileName = req.query.fileName;
+		}
+		if (req.query.title) {
+			query.title = req.query.title;
+		}
+
 		console.log(req.params.user_id);
 		//console.log(res);
-		Voice.find({ user: req.params.user_id}).exec(function (err, voices) {
+		Voice.find(query).exec(function (err, voices) {
             res.status(200);
 			res.json(voices);
 		});
-	
 });
 
 

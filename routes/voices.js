@@ -32,8 +32,18 @@ var uploads = multer({
 /* VOICES */
 /* GET voices listing. */
 router.get('/', function(req, res) {
+
+		var query = {};
+
+		if (req.query.fileName) {
+			query.fileName = req.query.fileName;
+		}
+		if (req.query.title) {
+			query.title = req.query.title;
+		}
+	
 		Voice
-			.find()
+			.find(query)
 			.populate('user')
 			.exec(function(err, voices) {
 			if (err)
@@ -106,31 +116,18 @@ router.put('/:voice_fileName', function(req, res) {
 			}
 
 			voice.user = req.body.uid;
+			if(req.body.title) {
+				voice.title = req.body.title;
+			}
 			voice.save(function(err) {
 				if (err) {
 					res.send(err);
 				}
+
 				res.status(200);
 				res.json({ message: "Voice updated"});
 			})
 		});
-		// Voice.findById(req.params.voice_id, function(err, voice) {
-		//
-		// 	if (err) {
-		// 		res.send(err);
-		// 	}
-		//
-		// 	voice.title = req.body.title;  // set the voices name (comes from the request)
-		 //    voice.fileLocation = req.body.fileLocation;
-		 //    voice.user = req.body.uid;
-		// 	voice.save(function(err) {
-		// 		if (err)
-		// 			res.send(err);
-		//
-		// 		res.json({ message: 'Voice updated!' });
-		// 	});
-		//
-		// });
 });
 
 	// delete the voice with this id

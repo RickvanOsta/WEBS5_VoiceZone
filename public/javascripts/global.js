@@ -6,13 +6,20 @@
 var users = [];
 var voices = [];
 
+var userId = null;
+var voiceName, voiceUser;
+
 // DOM Ready =============================================================
 $(document).ready(function() {
 
     // Populate the user table on initial page load
     populateTable();
-    //add user
-    $('#btnAddUser').on('click', addUser);
+    //show user/voice
+    $('#userList table tbody').on('click', 'td a.linkshowuser', showUser);
+    $('#voiceList table tbody').on('click', 'td a.linkshowvoice', showVoice);
+    //edit user/voice
+    $('#btnEditUser').on('click', editUser);
+    $('#btnEditVoice').on('click', editVoice);
     // Delete User link click
     $('#userList table tbody').on('click', 'td a.linkdeleteuser', deleteUser);
     $('#voiceList table tbody').on('click', 'td a.linkdeletevoice', deleteVoice);
@@ -31,10 +38,20 @@ function populateTable() {
         users = data;
         console.log(data);
         $.each(data, function() {
+
             tableContent += "<tr>";
-            tableContent += "<td><a href='#' class='linkshowuser' rel='" + this.username + "'>" + this.username + "</a></td>";
-            tableContent += "<td>" + this.firstname + "</td>";
-            tableContent += "<td>" + this.lastname + "</td>";
+            if (this.local) {
+                tableContent += "<td><a href='#' class='linkshowuser' rel='" + this._id + "'>" + this.local.email + "</a></td>";
+            } else {
+                tableContent += "<td>null</td>";
+            }
+            if (this.facebook) {
+                tableContent += "<td>" + this.facebook.email + "</td>";
+                tableContent += "<td>" + this.facebook.name + "</td>";
+            } else {
+                tableContent += "<td>null</td>";
+                tableContent += "<td>null</td>";
+            }
             tableContent += "<td><a href='#' class='linkdeleteuser' rel='" + this._id + "'>delete</a></td>";
             tableContent += "</tr>";
         });
@@ -51,24 +68,65 @@ function populateTable() {
 
         $.each(data, function() {
             tableContentVoices += "<tr>";
-            tableContentVoices += "<td>" + this.title + "</td>";
+            tableContentVoices += "<td><a href='#' class='linkshowvoice' rel='" + this._id + "'>" + this.title + "</a></td>";
             tableContentVoices += "<td>" + this.fileName + "</td>";
             tableContentVoices += "<td>" + this.fileLocation + "</td>";
-            tableContentVoices += "<td>" + this.user + "</td>";
-            tableContentVoices += "<td><a href='#' class='linkdeletevoice' rel='" + this._id + "'>delete</a></td>";
+            if (this.user) {
+                tableContentVoices += "<td>" + this.user._id + "</td>";
+                tableContentVoices += "<td><a href='#' class='linkdeletevoice' rel='" + this._id + "'>delete</a></td>";
+            } else {
+                tableContentVoices += "<td>null</td>";
+                tableContentVoices += "<td>null</td>";
+            }
             tableContentVoices += "</tr>";
         });
         $('#voiceList table tbody').html(tableContentVoices);
     });
 }
 
-//Add user
-function addUser(event) {
+//Show user
+function showUser(event) {
+    event.preventDefault();
+
+    var id = $(this).attr('rel');
+    var arrayPosition = users.map(function(arrayItem) { return arrayItem._id; }).indexOf(id);
+
+    var user = users[arrayPosition];
+
+    console.log(id);
+    console.log(arrayPosition);
+    console.log(user);
+    //populate
+    $('#inputEmail').val(user.local.email);
+    userId = user._id;
+}
+
+//Show voice
+function showVoice(event) {
+    event.preventDefault();
+
+    var id = $(this).attr('rel');
+    var arrayPosition = voices.map(function(arrayItem) { return arrayItem._id; }).indexOf(id);
+
+    var voice = voices[arrayPosition];
+
+    console.log(id);
+    console.log(arrayPosition);
+    console.log(voice);
+    //populate
+    $('#inputTitle').val(voice.title);
+    voiceName = voice.fileName;
+    voiceUser = voice.user._id;
+    console.log(voiceName);
+}
+
+//Edit user
+function editUser(event) {
     event.preventDefault();
 
     //basic validation if input = empty
     var errorCount = 0;
-    $('#addUser input').each(function(index, val) {
+    $('#editUser input').each(function(index, val) {
         if($(this).val() === '') {
             errorCount++;
         }
@@ -77,24 +135,63 @@ function addUser(event) {
     if (errorCount === 0) {
 
         var newUser = {
-            "username": $('#addUser fieldset input#inputUserName').val(),
-            "firstname": $('#addUser fieldset input#inputFirstName').val(),
-            "lastname": $('#addUser fieldset input#inputLastName').val(),
-            'uid': $('#addUser fieldset input#inputUid').val()
+            "email": $('#editUser fieldset input#inputEmail').val()
         };
 
         console.log(newUser);
 
         //ajax post
         $.ajax({
-           type:'POST',
+           type:'PUT',
            data: newUser,
-           url: '/users',
+           url: '/users/' + userId,
            dataType: 'JSON',
            error: handleError
         }).done(function(response) {
             //clear form
-            $('#addUser fieldset input').val('');
+            $('#editUser fieldset input').val('');
+
+            //update
+            populateTable();
+        });
+    } else {
+        //validation fail
+        alert('Please fill in all fields');
+        return false;
+    }
+}
+
+//edit voice
+function editVoice(event) {
+    event.preventDefault();
+
+    //basic validation if input = empty
+    var errorCount = 0;
+    $('#editVoice input').each(function(index, val) {
+        if($(this).val() === '') {
+            errorCount++;
+        }
+    });
+
+    if (errorCount === 0) {
+
+        var voice = {
+            "uid": voiceUser,
+            "title": $('#editVoice fieldset input#inputTitle').val()
+        };
+
+        console.log(voice);
+
+        //ajax post
+        $.ajax({
+            type:'PUT',
+            data: voice,
+            url: '/voices/' + voiceName,
+            dataType: 'JSON',
+            error: handleError
+        }).done(function(response) {
+            //clear form
+            $('#editUser fieldset input').val('');
 
             //update
             populateTable();

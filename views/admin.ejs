@@ -20,9 +20,9 @@
                 <table>
                     <thead>
                         <tr>
-                            <td>Name</td>
-                            <td>Email</td>
-                            <td>Token</td>
+                            <td>email</td>
+                            <td>FB Email</td>
+                            <td>FB name</td>
                             <td>Delete?</td>
                         </tr>
                     </thead>
@@ -52,17 +52,23 @@
             </div>
             <!-- /voicelist -->
 
-            <!-- ADD USER -->
-            <div id="addUser">
+            <!-- EDIT USER -->
+            <div id="editUser">
                 <fieldset>
-                    <input type="text" placeholder="username" id="inputUserName"/><br/>
-                    <input type="text" placeholder="firstname" id="inputFirstName"/><br/>
-                    <input type="text" placeholder="lastname" id="inputLastName"/><br/>
-                    <input type="text" placeholder="uId" id="inputUid"/><br/>
-                    <button id="btnAddUser">Add User</button>
+                    <input type="text" placeholder="email" id="inputEmail" size="34"/><br/>
+                    <button id="btnEditUser">Edit User</button>
                 </fieldset>
             </div>
-            <!-- /ADD USER -->
+            <!-- /EDIT USER -->
+
+            <!-- EDIT VOICE -->
+            <div id="editVoice">
+                <fieldset>
+                    <input type="text" placeholder="title" id="inputTitle" size="34"/><br/>
+                    <button id="btnEditVoice">Edit Voicenote</button>
+                </fieldset>
+            </div>
+            <!-- /EDIT VOICE -->
         </div>
 
         <!-- /wrapper -->

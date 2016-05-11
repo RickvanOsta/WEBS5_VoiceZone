@@ -30,11 +30,9 @@ function makePutRequest(route, body, statusCode, callback) {
 		});
 }
 
-function makePostRequest(route, body, statusCode, callback) {
+function makeDeleteRequest(route, statusCode, callback) {
 	request(app)
-		.post(route)
-		.type('json')
-		.send(body)
+		.del(route)
 		.expect(statusCode)
 		.end(function(err, res){
 			if(err) { return callback(err) }
@@ -44,50 +42,41 @@ function makePostRequest(route, body, statusCode, callback) {
 }
 
 var testUser = {
-	"_id": "123123123",
-	"local": { "email": "testUser@email.com", "password": "123456789" }
+	"firstname": "test"
 };
 
 describe('Testing users route', function() {
+	it('should return 200 if api can find and return all users', function(done){
+		makeRequest('/users', 200, function(err, res){
+			if (err) { return done(err) }
 
-	describe('create user', function() {
-		it('should create a new user', function(done) {
-			makePostRequest('/users', testUser, 200, function(err, res) {
-				if (err) { return done(err) }
-
-				expect(res.body.message).to.equal('User created!');
-				done();
-			});
+			done();
 		});
 	});
 
-	describe('get users', function() {
-		it('should return 200 if api can find and return all users', function(done){
-			makeRequest('/users', 200, function(err, res){
-				if (err) { return done(err) }
+	it('should return the user with the specified id', function(done) {
+		makeRequest('/users/56fd01c8d8996a742ae10953', 200, function(err, res) {
+			if (err) {return done(err);}
 
-				done();
-			});
-		});
-
-		it('should return the user with the specified id', function(done) {
-			makeRequest('/users/56fd01c8d8996a742ae10953', 200, function(err, res) {
-				if (err) {return done(err);}
-
-				done();
-			});
+			expect(res.body._id).to.equal('56fd01c8d8996a742ae10953');
+			done();
 		});
 	});
 
-	// describe('put user', function() {
-	// 	it('should update the user', function(done) {
-	// 		//makePutRequest()
-	// 	});
-	// });
+	it('should update the user', function(done) {
+		makePutRequest("/users/56fd01c8d8996a742ae10953", testUser, 200, function(err, res) {
+			if (err) { return done(err); }
 
-	describe('invalid route', function() {
-		it('should return 404 when route is not found', function(done) {
-			makeRequest('/randomRoute/someRandomRoute', 404, done);
+			done();
+		});
+	});
+
+	it('should delete the user', function(done) {
+		makeDeleteRequest("/users/5733058fd901d8d43e4b899e", 202, function(err, res) {
+			if (err) { return done(err);}
+
+			expect(res.body.message).to.equal('Successfully deleted');
+			done();
 		});
 	});
 });
