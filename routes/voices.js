@@ -38,7 +38,7 @@ router.get('/', function(req, res) {
 			.exec(function(err, voices) {
 			if (err)
 				res.send(err);
-			res.sendStatus(200);
+			res.status(200);
 			res.json(voices);
 		});
 });
@@ -70,7 +70,7 @@ router.post('/', uploads.single('upl'), function(req, res) {
 			if (err) {
 				res.send(err);
 			}
-			res.sendStatus(201);
+			res.status(201);
 			res.json({ message: 'Voice created!', uploadedFile: req.file, filename: req.file.filename });
 		});
 		});
@@ -88,7 +88,7 @@ router.get('/:voice_id', function(req, res) {
 			if (err) {
 				res.send(err);
 			}
-			res.sendStatus(200);
+			res.status(200);
 			res.json(voice);
 		});
 });
@@ -110,7 +110,7 @@ router.put('/:voice_fileName', function(req, res) {
 				if (err) {
 					res.send(err);
 				}
-				res.sendStatus(200);
+				res.status(200);
 				res.json({ message: "Voice updated"});
 			})
 		});
@@ -140,7 +140,7 @@ router.delete('/:voice_id', function(req, res) {
 		}, function(err, voice) {
 			if (err)
 				res.send(err);
-			res.sendStatus(200);
+			res.status(200);
 			res.json({ message: 'Successfully deleted' });
 		});
 });

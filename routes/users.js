@@ -15,7 +15,7 @@ router.get('/', function(req, res) {
 			if (err) {
 				res.send(err);
 			}
-            res.sendStatus(200);
+            res.status(200);
 			res.json(users);
 		});
 });
@@ -32,7 +32,7 @@ router.post('/', function(req, res) {
 				res.send(err);
 			}
 			console.log('USER CREATED');
-            res.sendStatus(201);
+            res.status(201);
 			res.json({ message: 'User created!' });
 		});
         
@@ -48,7 +48,7 @@ router.get('/:user_id', function(req, res) {
 			if (err) {
 				res.send(err);
 			}
-            res.sendStatus(200);
+            res.status(200);
 			res.json(user);
 		});
 	});
@@ -72,7 +72,7 @@ router.put('/:user_id', function(req, res) {
 			user.save(function(err) {
 				if (err)
 					res.send(err);
-                    res.sendStatus(200);
+                    res.status(200);
 				res.json({ message: 'User updated!' });
 			});
 
@@ -87,7 +87,7 @@ router.delete('/:user_id', function(req, res) {
 			if (err) {
 				res.send(err);
 			}
-			res.sendStatus(200);
+			res.status(200);
 			res.json({ message: 'Successfully deleted' });
 		});
 });
@@ -97,7 +97,7 @@ router.get('/:user_id/voices',  function(req, res) {
 		console.log(req.params.user_id);
 		//console.log(res);
 		Voice.find({ user: req.params.user_id}).exec(function (err, voices) {
-            res.sendStatus(200);
+            res.status(200);
 			res.json(voices);
 		});
 	
