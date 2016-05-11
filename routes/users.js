@@ -23,10 +23,9 @@ router.get('/', function(req, res) {
 /* POST users listing. */
 router.post('/', function(req, res) {
 		var user = new User();		// create a new instance of the User model
-		user.username = req.body.username;  // set the users name (comes from the request)
-        user.uid = req.body.uid;
-        user.firstname = req.body.firstname;
-        user.lastname = req.body.lastname;
+		user._id = req.body._id;
+		user.local.email = req.body.local.email;  // set the users name (comes from the request)
+		user.local.password = req.body.local.password;
         user.save(function(err) {
 			if (err) {
 				res.send(err);

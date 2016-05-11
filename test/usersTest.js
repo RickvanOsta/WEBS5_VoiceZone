@@ -43,28 +43,47 @@ function makePostRequest(route, body, statusCode, callback) {
 		});
 }
 
-describe('Testing users route', function() {
-	describe('get users', function() {
+var testUser = {
+	"_id": "123123123",
+	"local": { "email": "testUser@email.com", "password": "123456789" }
+};
 
+describe('Testing users route', function() {
+
+	describe('create user', function() {
+		it('should create a new user', function(done) {
+			makePostRequest('/users', testUser, 200, function(err, res) {
+				if (err) { return done(err) }
+
+				expect(res.body.message).to.equal('User created!');
+				done();
+			});
+		});
+	});
+
+	describe('get users', function() {
 		it('should return 200 if api can find and return all users', function(done){
 			makeRequest('/users', 200, function(err, res){
+				if (err) { return done(err) }
+
 				done();
 			});
 		});
 
-		it('should return 200 if api can find a user with specific id', function(done) {
+		it('should return the user with the specified id', function(done) {
 			makeRequest('/users/56fd01c8d8996a742ae10953', 200, function(err, res) {
 				if (err) {return done(err);}
+
 				done();
 			});
 		});
 	});
 
-	describe('put user', function() {
-		it('should update the user', function(done) {
-			makePutRequest()
-		});
-	});
+	// describe('put user', function() {
+	// 	it('should update the user', function(done) {
+	// 		//makePutRequest()
+	// 	});
+	// });
 
 	describe('invalid route', function() {
 		it('should return 404 when route is not found', function(done) {
