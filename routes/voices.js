@@ -8,10 +8,10 @@ var SoundCloud = require('soundjs');
 
 
 var sc = new SoundCloud(configAuth.soundcloudAuth.clientID, 
-                        configAuth.soundcloudAuth.clientSecret, 
-                        configAuth.soundcloudAuth.userName, 
-                        configAuth.soundcloudAuth.password, 
-                        configAuth.soundcloudAuth.callbackURL);
+						configAuth.soundcloudAuth.clientSecret, 
+						configAuth.soundcloudAuth.userName, 
+						configAuth.soundcloudAuth.password, 
+						configAuth.soundcloudAuth.callbackURL);
 
 
 
@@ -32,13 +32,13 @@ var uploads = multer({
 /* VOICES */
 /* GET voices listing. */
 router.get('/', function(req, res) {
-        Voice
-            .find()
-            .populate('user')
-            .exec(function(err, voices) {
+		Voice
+			.find()
+			.populate('user')
+			.exec(function(err, voices) {
 			if (err)
 				res.send(err);
-
+			res.sendStatus(200);
 			res.json(voices);
 		});
 });
@@ -57,22 +57,23 @@ router.post('/', uploads.single('upl'), function(req, res) {
 		voice.title = req.file.originalname;  // set the voices name (comes from the request)
 		voice.fileName = req.file.filename;
 		voice.fileLocation = path;
-        voice.user = "56fd16a4d8996a742ae10954";//req.body.uid;
-        voice.playlist = "";
-        
-        sc.playlists().then(function(playlist){
-        voice.playlist.url = playlist[0].permalink_url;
-        voice.playlist.genre = playlist[0].genre;
-        voice.playlist.desc = playlist[0].description;
-        console.log(playlist);
-        console.log(voice);
-        voice.save(function(err) {
+		voice.user = "56fd16a4d8996a742ae10954";//req.body.uid;
+		voice.playlist = "";
+		
+		sc.playlists().then(function(playlist){
+		voice.playlist.url = playlist[0].permalink_url;
+		voice.playlist.genre = playlist[0].genre;
+		voice.playlist.desc = playlist[0].description;
+		console.log(playlist);
+		console.log(voice);
+		voice.save(function(err) {
 			if (err) {
 				res.send(err);
 			}
+			res.sendStatus(201);
 			res.json({ message: 'Voice created!', uploadedFile: req.file, filename: req.file.filename });
 		});
-        });
+		});
 
 		
 });
@@ -81,12 +82,13 @@ router.post('/', uploads.single('upl'), function(req, res) {
 // get the voice with that id
 router.get('/:voice_id', function(req, res) {
 		Voice
-            .findById(req.params.voice_id)
-            .populate('user')
-            .exec(function(err, voice) {
+			.findById(req.params.voice_id)
+			.populate('user')
+			.exec(function(err, voice) {
 			if (err) {
 				res.send(err);
 			}
+			res.sendStatus(200);
 			res.json(voice);
 		});
 });
@@ -108,26 +110,26 @@ router.put('/:voice_fileName', function(req, res) {
 				if (err) {
 					res.send(err);
 				}
-
+				res.sendStatus(200);
 				res.json({ message: "Voice updated"});
 			})
 		});
 		// Voice.findById(req.params.voice_id, function(err, voice) {
-        //
+		//
 		// 	if (err) {
 		// 		res.send(err);
 		// 	}
-        //
+		//
 		// 	voice.title = req.body.title;  // set the voices name (comes from the request)
-         //    voice.fileLocation = req.body.fileLocation;
-         //    voice.user = req.body.uid;
+		 //    voice.fileLocation = req.body.fileLocation;
+		 //    voice.user = req.body.uid;
 		// 	voice.save(function(err) {
 		// 		if (err)
 		// 			res.send(err);
-        //
+		//
 		// 		res.json({ message: 'Voice updated!' });
 		// 	});
-        //
+		//
 		// });
 });
 
@@ -138,7 +140,7 @@ router.delete('/:voice_id', function(req, res) {
 		}, function(err, voice) {
 			if (err)
 				res.send(err);
-
+			res.sendStatus(200);
 			res.json({ message: 'Successfully deleted' });
 		});
 });
