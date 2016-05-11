@@ -51,16 +51,15 @@ function populateTable() {
 
         $.each(data, function() {
             tableContentVoices += "<tr>";
-            tableContentVoices += "<td>" + this.title + "</a></td>";
+            tableContentVoices += "<td>" + this.title + "</td>";
             tableContentVoices += "<td>" + this.fileName + "</td>";
             tableContentVoices += "<td>" + this.fileLocation + "</td>";
             tableContentVoices += "<td>" + this.user + "</td>";
             tableContentVoices += "<td><a href='#' class='linkdeletevoice' rel='" + this._id + "'>delete</a></td>";
             tableContentVoices += "</tr>";
         });
+        $('#voiceList table tbody').html(tableContentVoices);
     });
-
-    $('#voiceList table tbody').html(tableContent);
 }
 
 //Add user
